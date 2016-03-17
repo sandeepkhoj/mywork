@@ -1373,6 +1373,12 @@ appControllers.controller('testPrototypeCtrl',function($scope,$rootScope,$locati
 		url: serviceBaseUri + 'ParticipantSurveyService.svc/Surveys/' + $rootScope.participantSurvey.SurveyId + '/PrototypeCodes'
 	}).then(function(data) {
 		console.log(data);
+		common.makeRequest({
+			method: 'GET',
+			url: serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/' + $rootScope.currentParticipant.Id
+		}).then(function(filterdata) {
+			console.log(filterdata);
+		});
 		for (var i in data) {
 			$scope.codeOptions.push(data[i]);
 		}
