@@ -1317,7 +1317,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 
 
 	$scope.allowTestProtoType = function() {
-		var allow  = true;
+		var allow  = false;
 		for(var j = 0 ; j < $scope.codeOptions.length ; j++) {
 			var found = false;
 			for (var i = 0; i < $rootScope.participantSurvey.PrototypeTests.length; i++) {
@@ -1329,7 +1329,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 				}
 			}
 			if(found == false) {
-				allow = false;
+				allow = true;
 				break;
 			}
 		}
