@@ -1272,7 +1272,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 	});
 	$scope.codeOptions = [];
 	$scope.prototypeTest = [];
-	$scope.prototypeCode = null;
+	$scope.prototypeCode = $rootScope.prototypeCode;
 
 	if(angular.isUndefined($rootScope.currentParticipant)) {
 		$rootScope.currentParticipant = JSON.parse(localStorageService.get('currentParticipant'));
