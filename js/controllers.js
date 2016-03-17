@@ -1296,15 +1296,15 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 		}).then(function(data) {
 			$rootScope.participantSurvey = data;
 			console.log(data);
-			if($scope.data.PrototypeTests != null) {
+			if(data.PrototypeTests != null) {
 				$rootScope.prototypeTest = [];
-				for (var j = 0; j < $scope.data.PrototypeTests.length; j++) {
+				for (var j = 0; j < data.PrototypeTests.length; j++) {
 					localStorageService.set('participantSurvey', JSON.stringify(data));
 
 					if (data.CurrentPrototypeTestId != 0) {
 						common.makeRequest({
 							method: 'GET',
-							url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + $scope.data.PrototypeTests[j].Id
+							url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + data.PrototypeTests[j].Id
 						}).then(function (data) {
 							$rootScope.prototypeTest.push(data);
 							$scope.prototypeTest.push(data)
