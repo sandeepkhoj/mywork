@@ -75,7 +75,7 @@
         <entry file="file://$PROJECT_DIR$/views/participant/landing.html">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.27037773">
-              <caret line="8" column="95" selection-start-line="8" selection-start-column="95" selection-end-line="8" selection-end-column="95" />
+              <caret line="8" column="108" selection-start-line="8" selection-start-column="108" selection-end-line="8" selection-end-column="108" />
               <folding />
             </state>
           </provider>
@@ -825,7 +825,7 @@
     <entry file="file://$PROJECT_DIR$/views/participant/landing.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.27037773">
-          <caret line="8" column="95" selection-start-line="8" selection-start-column="95" selection-end-line="8" selection-end-column="95" />
+          <caret line="8" column="108" selection-start-line="8" selection-start-column="108" selection-end-line="8" selection-end-column="108" />
           <folding />
         </state>
       </provider>
