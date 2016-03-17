@@ -1373,16 +1373,30 @@ appControllers.controller('testPrototypeCtrl',function($scope,$rootScope,$locati
 		url: serviceBaseUri + 'ParticipantSurveyService.svc/Surveys/' + $rootScope.participantSurvey.SurveyId + '/PrototypeCodes'
 	}).then(function(data) {
 		console.log(data);
+		for (var i in data) {
+			$scope.codeOptions.push(data[i]);
+		}
 		common.makeRequest({
 			method: 'GET',
 			url: serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/' + $rootScope.currentParticipant.Id
 		}).then(function(filterdata) {
 			console.log(filterdata);
+			for (var i in filterdata.PrototypeTests) {
+				removeA($scope.codeOptions, filterdata.PrototypeTests[i].PrototypeCode);
+			}
 		});
-		for (var i in data) {
-			$scope.codeOptions.push(data[i]);
-		}
 	});
+
+	function removeA(arr) {
+		var what, a = arguments, L = a.length, ax;
+		while (L > 1 && arr.length) {
+			what = a[--L];
+			while ((ax= arr.indexOf(what)) !== -1) {
+				arr.splice(ax, 1);
+			}
+		}
+		return arr;
+	}
 
 	// Save prototype code
 	$scope.submitQuery = function(){
