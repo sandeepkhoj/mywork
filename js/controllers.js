@@ -1341,9 +1341,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 	}
 
 	$scope.testPrototype = function() {
-		if ($rootScope.participantSurvey.CurrentPrototypeTestId == 0 && !$scope.prototypeCompleted) {
-			$location.path('/testPrototype');
-		}
+		$location.path('/testPrototype');
 	};
 	$scope.prototypeQuestion = function() {
 		if (!$scope.prototypeCompleted) {
