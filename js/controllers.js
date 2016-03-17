@@ -1295,6 +1295,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 			url: serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/' + $rootScope.currentParticipant.Id
 		}).then(function(data) {
 			$rootScope.participantSurvey = data;
+			localStorageService.set('participantSurvey', JSON.stringify($rootScope.participantSurvey));
 			console.log(data);
 			if(data.PrototypeTests != null) {
 				$rootScope.prototypeTest = [];
