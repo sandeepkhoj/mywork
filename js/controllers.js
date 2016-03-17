@@ -1272,7 +1272,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 	});
 	$scope.codeOptions = [];
 	$scope.prototypeTest = [];
-	$scope.prototypeCode = [];
+	$scope.prototypeCode = null;
 
 	if(angular.isUndefined($rootScope.currentParticipant)) {
 		$rootScope.currentParticipant = JSON.parse(localStorageService.get('currentParticipant'));
@@ -1281,7 +1281,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 		$rootScope.prototypeTest = JSON.parse(localStorageService.get('prototypeTest'));
 		$rootScope.prototypeCode = localStorageService.get('prototypeCode');
 		$scope.prototypeCode = $rootScope.prototypeCode;
-		console.log($rootScope.currentParticipant.Id);
+		console.log($scope.prototypeCode);
 	}
 
 	common.makeRequest({
@@ -1360,7 +1360,7 @@ appControllers.controller('testPrototypeCtrl',function($scope,$rootScope,$locati
 		$rootScope.participantSurvey = JSON.parse(localStorageService.get('participantSurvey'));
 		$rootScope.prototypeTest = JSON.parse(localStorageService.get('prototypeTest'));
 		$rootScope.participantUsername = localStorageService.get('participantUsername');
-		$rootScope.prototypeCode = localStorageService.get('prototypeCode');
+		//$rootScope.prototypeCode = localStorageService.get('prototypeCode');
 	}
 	$scope.codeOptions = [];
 	$scope.codeSelected = {};

@@ -5,9 +5,8 @@
         <a href="javascript:;" class="button expand large" data-ng-class="{'disabled': !allowTestProtoType()}" data-ng-click="testPrototype()" data-ng-disabled="!allowTestProtoType()">TEST A PROTOTYPE</a>
       <div data-ng-if="prototypeCode != null" class="jumbotron">
       	<a href="javascript:;" class="jumbotron-title" data-ng-click="prototypeQuestion()">CURRENT TESTING PROTOTYPE</a>
-          <div ng-repeat="prototype in prototypeTest">
-        <a href="javascript:;" class="jumbotron-context" data-ng-click="prototypeQuestion()">{{prototype.PrototypeCode}}</a>
-          </div>
+
+        <a href="javascript:;" class="jumbotron-context" data-ng-click="prototypeQuestion()">{{PrototypeCode}}</a>
 
       </div>
 
