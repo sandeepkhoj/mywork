@@ -1327,17 +1327,20 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 
 	$scope.allowTestProtoType = function() {
 		var allow  = false;
-		for(var j = 0 ; j < $scope.codeOptions.length ; j++) {
-			var found = false;
-			for (var i = 0; i < $rootScope.participantSurvey.PrototypeTests.length; i++) {
-				if ($scope.codeOptions[j] == $rootScope.participantSurvey.PrototypeTests[i].PrototypeCode && $rootScope.participantSurvey.PrototypeTests[i].Completed) {
-					found = true;
+		if($rootScope.participantSurvey != null) {
+			for (var j = 0; j < $scope.codeOptions.length; j++) {
+				var found = false;
+
+				for (var i = 0; i < $rootScope.participantSurvey.PrototypeTests.length; i++) {
+					if ($scope.codeOptions[j] == $rootScope.participantSurvey.PrototypeTests[i].PrototypeCode && $rootScope.participantSurvey.PrototypeTests[i].Completed) {
+						found = true;
+						break;
+					}
+				}
+				if (found == false) {
+					allow = true;
 					break;
 				}
-			}
-			if(found == false) {
-				allow = true;
-				break;
 			}
 		}
 		return ($rootScope.participantSurvey == null || allow);
