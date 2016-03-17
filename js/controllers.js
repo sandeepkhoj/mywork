@@ -1466,34 +1466,32 @@ appControllers.controller('prototypeQuestionCtrl',function($scope,$rootScope,$lo
 
 	//Next
 	$scope.step = -1;
-	if ($rootScope.participantSurvey.CurrentPrototypeTestId != 0) {
-		common.makeRequest({
-			method: 'GET',
-			url: serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/' + $rootScope.participantSurvey.Id + '/PrototypeQuestions'
-		}).then(function(data) {
-			console.log(data);
-			$scope.questions = $rootScope.processRangeQuestion(data);
+	common.makeRequest({
+		method: 'GET',
+		url: serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/' + $rootScope.participantSurvey.Id + '/PrototypeQuestions'
+	}).then(function(data) {
+		console.log(data);
+		$scope.questions = $rootScope.processRangeQuestion(data);
 
-			angular.forEach($scope.questions, function(item) {
-				for (var i in $rootScope.prototypeTest.Answers) {
-					if ($rootScope.prototypeTest.Answers[i].QuestionId == item.Id) {
-						item.AnswerId = $rootScope.prototypeTest.Answers[i].Id;
-						if (item.QuestionType === 0) {
-							if (item.AnswerOptions[0].Type === 0) {
-								item.Checked = $rootScope.prototypeTest.Answers[i].AnswerOptionId;
-							} else {
-								item.Input = $rootScope.prototypeTest.Answers[i].Input;
-							}
+		angular.forEach($scope.questions, function(item) {
+			for (var i in $rootScope.prototypeTest.Answers) {
+				if ($rootScope.prototypeTest.Answers[i].QuestionId == item.Id) {
+					item.AnswerId = $rootScope.prototypeTest.Answers[i].Id;
+					if (item.QuestionType === 0) {
+						if (item.AnswerOptions[0].Type === 0) {
+							item.Checked = $rootScope.prototypeTest.Answers[i].AnswerOptionId;
 						} else {
-							item.Value = item.AnswerOptions[0].FromValue < item.AnswerOptions[0].ToValue ? $rootScope.prototypeTest.Answers[i].Value : item.AnswerOptions[0].ToValue + (item.AnswerOptions[0].FromValue - $rootScope.prototypeTest.Answers[i].Value);
+							item.Input = $rootScope.prototypeTest.Answers[i].Input;
 						}
-						break;
+					} else {
+						item.Value = item.AnswerOptions[0].FromValue < item.AnswerOptions[0].ToValue ? $rootScope.prototypeTest.Answers[i].Value : item.AnswerOptions[0].ToValue + (item.AnswerOptions[0].FromValue - $rootScope.prototypeTest.Answers[i].Value);
 					}
+					break;
 				}
-			});
-			$scope.step = 0;
+			}
 		});
-	}
+		$scope.step = 0;
+	});
 	// Upload photo
 	$scope.upload = function(flow) {
 		flow.opts.target = serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/UploadPhoto?fileName=' + flow.files[0].name;
