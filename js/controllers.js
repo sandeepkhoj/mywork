@@ -1303,21 +1303,21 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 			if(data.PrototypeTests != null) {
 				$rootScope.prototypeTest = [];
 				for (var j = 0; j < data.PrototypeTests.length; j++) {
-					localStorageService.set('participantSurvey', JSON.stringify(data));
 					common.makeRequest({
 						method: 'GET',
 						url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + data.PrototypeTests[j].Id
 					}).then(function (data) {
+						if($scope.prototypeCode == data.PrototypeCode) {
+							$scope.prototypeCode = null;
+						}
 						if(data.Completed) {
 							$scope.completedPrototypeTest.push(data);
 						}
 						else {
 							$scope.inCompletedPrototypeTest.push(data);
 						}
-
 					});
 				}
-				localStorageService.set('prototypeTest', JSON.stringify($rootScope.prototypeTest));
 			}
 		});
 	});
