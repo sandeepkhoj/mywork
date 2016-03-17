@@ -1270,6 +1270,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 		headLess: false,
 		footerLess: false
 	});
+	$scope.codeOptions = [];
 
 	if(angular.isUndefined($rootScope.currentParticipant)) {
 		$rootScope.currentParticipant = JSON.parse(localStorageService.get('currentParticipant'));
@@ -1282,30 +1283,55 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 
 	common.makeRequest({
 		method: 'GET',
-		url: serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/' + $rootScope.currentParticipant.Id
+		url: serviceBaseUri + 'ParticipantSurveyService.svc/Surveys/' + $rootScope.participantSurvey.SurveyId + '/PrototypeCodes'
 	}).then(function(data) {
-		$rootScope.participantSurvey = data;
 		console.log(data);
-		localStorageService.set('participantSurvey',JSON.stringify(data));
-		if (data.CurrentPrototypeTestId != 0) {
-			common.makeRequest({
-				method: 'GET',
-				url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + data.CurrentPrototypeTestId
-			}).then(function(data) {
-				$rootScope.prototypeTest = data;
-				localStorageService.set('prototypeTest',JSON.stringify(data));
-				$scope.prototypeCode = data.PrototypeCode;
-				console.log(data);
-				$rootScope.completed = data.Completed;
-				$scope.prototypeCompleted = $rootScope.completed ? true : false;
-			});
-		} else {
-			$scope.prototypeCode = $rootScope.prototypeCode ? $rootScope.prototypeCode : '';
+		for (var i in data) {
+			$scope.codeOptions.push(data[i]);
 		}
+		common.makeRequest({
+			method: 'GET',
+			url: serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/' + $rootScope.currentParticipant.Id
+		}).then(function(data) {
+			$rootScope.participantSurvey = data;
+			console.log(data);
+			localStorageService.set('participantSurvey',JSON.stringify(data));
+			if (data.CurrentPrototypeTestId != 0) {
+				common.makeRequest({
+					method: 'GET',
+					url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + data.CurrentPrototypeTestId
+				}).then(function(data) {
+					$rootScope.prototypeTest = data;
+					localStorageService.set('prototypeTest',JSON.stringify(data));
+					$scope.prototypeCode = data.PrototypeCode;
+					console.log(data);
+					$rootScope.completed = data.Completed;
+					$scope.prototypeCompleted = $rootScope.completed ? true : false;
+				});
+			} else {
+				$scope.prototypeCode = $rootScope.prototypeCode ? $rootScope.prototypeCode : '';
+			}
+		});
 	});
 
+
+
 	$scope.allowTestProtoType = function() {
-		return (($rootScope.participantSurvey == null || $rootScope.participantSurvey.CurrentPrototypeTestId == 0) && !$scope.prototypeCompleted);
+		var allow  = true;
+		for(var j = 0 ; j < $scope.codeOptions.length ; j++) {
+			var found = false;
+			for (var i = 0; i < $rootScope.participantSurvey.PrototypeTests.length; i++) {
+				if ($scope.codeOptions[j].Code == $rootScope.participantSurvey.PrototypeTests[i].PrototypeCode && $rootScope.participantSurvey.PrototypeTests[i].Completed) {
+					found = true;
+					break;
+				}
+			}
+			if(found == false) {
+				allow = found;
+				break;
+			}
+		}
+		return ($rootScope.participantSurvey == null || allow);
 	}
 
 	$scope.testPrototype = function() {
