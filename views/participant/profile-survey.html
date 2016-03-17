@@ -19,7 +19,7 @@
                     <div class="small-4 columns">
                         <div class="input-control first" data-ng-class="{'error': submitted && !todayMonthSelected.selected}">
                             <div data-ui-select data-ng-model="todayMonthSelected.selected" data-theme="select2">
-                                <div data-ui-select-match data-placeholder="mm">{{todayMonthSelected.selected}}</div>
+                                <div data-ui-select-match data-placeholder="mm">{{todayMonthSelected.selected.text}}</div>
                                 <div data-ui-select-choices data-repeat="person in monthOptions">
                                     <div data-ng-bind-html="person.text"></div>
                                 </div>
