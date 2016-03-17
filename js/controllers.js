@@ -1272,6 +1272,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 	});
 	$scope.codeOptions = [];
 	$scope.prototypeTest = [];
+	$scope.prototypeCode = [];
 
 	if(angular.isUndefined($rootScope.currentParticipant)) {
 		$rootScope.currentParticipant = JSON.parse(localStorageService.get('currentParticipant'));
@@ -1279,6 +1280,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 		$rootScope.participantSurvey = JSON.parse(localStorageService.get('participantSurvey'));
 		$rootScope.prototypeTest = JSON.parse(localStorageService.get('prototypeTest'));
 		$rootScope.prototypeCode = localStorageService.get('prototypeCode');
+		$scope.prototypeCode = $rootScope.prototypeCode;
 		console.log($rootScope.currentParticipant.Id);
 	}
 
@@ -1301,19 +1303,14 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 				$rootScope.prototypeTest = [];
 				for (var j = 0; j < data.PrototypeTests.length; j++) {
 					localStorageService.set('participantSurvey', JSON.stringify(data));
-
-					if (data.CurrentPrototypeTestId != 0) {
-						common.makeRequest({
-							method: 'GET',
-							url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + data.PrototypeTests[j].Id
-						}).then(function (data) {
-							$rootScope.prototypeTest.push(data);
-							$scope.prototypeTest.push(data)
-							console.log(data);
-						});
-					} else {
-						$scope.prototypeCode = $rootScope.prototypeCode ? $rootScope.prototypeCode : '';
-					}
+					common.makeRequest({
+						method: 'GET',
+						url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + data.PrototypeTests[j].Id
+					}).then(function (data) {
+						$rootScope.prototypeTest.push(data);
+						$scope.prototypeTest.push(data)
+						console.log(data);
+					});
 				}
 				localStorageService.set('prototypeTest', JSON.stringify($rootScope.prototypeTest));
 			}
