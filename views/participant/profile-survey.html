@@ -42,7 +42,7 @@
                         <div class="input-control last" data-ng-class="{'error': submitted && !todayYearSelected.selected}">
                             <div data-ui-select data-ng-model="todayYearSelected.selected" data-theme="select2">
                                 <div data-ui-select-match data-placeholder="yyyy">{{$select.selected}}</div>
-                                <div data-ui-select-choices data-repeat="person in yearOptions">
+                                <div data-ui-select-choices data-repeat="person in todayYearOptions">
                                     <div data-ng-bind-html="person"></div>
                                 </div>
                             </div>

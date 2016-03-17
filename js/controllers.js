@@ -1044,15 +1044,19 @@ appControllers.controller('profileSurveyCtrl',function($scope,$rootScope,common,
 		}
 	}
 	$scope.yearOptions = [];
-	for (var i = 1900; i <= new Date().getFullYear(); i++) {
+	for (var i = 1966; i <= new Date().getFullYear(); i++) {
 		$scope.yearOptions.push('' + i);
 	}
+	$scope.todayYearOptions = [];
+	for (var i = new Date().getFullYear() - 2; i <= new Date().getFullYear(); i++) {
+		$scope.todayYearOptions.push('' + i);
+	}
 	$scope.weightOptions = [];
-	for (var i = 50; i <= 300; i++) {
+	for (var i = 60; i <= 300; i++) {
 		$scope.weightOptions.push('' + i);
 	}
 	$scope.heightFeetOptions = [];
-	for (var i = 2; i <= 6; i++) {
+	for (var i = 4; i <= 6; i++) {
 		$scope.heightFeetOptions.push('' + i);
 	}
 	$scope.heightInchOptions = [];
@@ -1166,8 +1170,8 @@ appControllers.controller('profileSurveyCtrl',function($scope,$rootScope,common,
 	$scope.submitQuery = function(event){
 		$scope.validate();
 		if($scope.todayMonthSelected.selected && $scope.todayDateSelected.selected && $scope.todayYearSelected.selected && $scope.monthSelected.selected && $scope.dateSelected.selected && $scope.yearSelected.selected && $scope.weightSelected.selected && $scope.heightFeetSelected.selected && $scope.heightInchSelected.selected && $scope.allAnswered){
-			var birthDate = new Date(parseInt($scope.yearSelected.selected), parseInt($scope.monthSelected.selected) - 1, parseInt($scope.dateSelected.selected));
-			var todayDate = new Date(parseInt($scope.todayYearSelected.selected), parseInt($scope.todayMonthSelected.selected) - 1, parseInt($scope.todayDateSelected.selected));
+			var birthDate = new Date(parseInt($scope.yearSelected.selected), parseInt($scope.monthSelected.selected.value) - 1, parseInt($scope.dateSelected.selected));
+			var todayDate = new Date(parseInt($scope.todayYearSelected.selected), parseInt($scope.todayMonthSelected.selected.value) - 1, parseInt($scope.todayDateSelected.selected));
 
 			//validate Date of Birth on 2 counts cannot be in future or cannot be invalid eg Feb 30th
 			if(birthDate.getTime() > new Date().getTime()){
@@ -1177,7 +1181,7 @@ appControllers.controller('profileSurveyCtrl',function($scope,$rootScope,common,
 			}
 
 			if(birthDate.getDate() != $scope.dateSelected.selected ||
-				birthDate.getMonth() + 1 != $scope.monthSelected.selected ||
+				birthDate.getMonth() + 1 != $scope.monthSelected.selected.value ||
 				birthDate.getFullYear() != $scope.yearSelected.selected) {
 				$scope.errorCode = 1;
 				$scope.allAnswered = false; //Trigger the validation view
