@@ -58,9 +58,9 @@
           	<div class="small-4 columns">
             	<div class="input-control first" data-ng-class="{'error': submitted && !monthSelected.selected}">
                 <div data-ui-select data-ng-model="monthSelected.selected" data-theme="select2">
-                  <div data-ui-select-match data-placeholder="mm">{{monthSelected.selected}}</div>
+                  <div data-ui-select-match data-placeholder="mm">{{monthSelected.selected.text}}</div>
                   <div data-ui-select-choices data-repeat="person in monthOptions">
-                    <div data-ng-bind-html="person"></div>
+                    <div data-ng-bind-html="person.text"></div>
                   </div>
                 </div>
               </div>

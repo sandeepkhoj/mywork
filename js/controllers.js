@@ -1096,7 +1096,7 @@ appControllers.controller('profileSurveyCtrl',function($scope,$rootScope,common,
 		}
 	}
 
-	$scope.todayMonthSelected = {selected:formatDate(new Date(),"m")};
+	$scope.todayMonthSelected = {selected:$scope.monthOptions[formatDate(new Date(),"m") - 1]};
 	$scope.todayDateSelected = {selected:formatDate(new Date(),"d")};
 	$scope.todayYearSelected = {selected:formatDate(new Date(),"y")};
 	$scope.monthSelected = {};
