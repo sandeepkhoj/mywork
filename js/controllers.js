@@ -1321,7 +1321,7 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 		for(var j = 0 ; j < $scope.codeOptions.length ; j++) {
 			var found = false;
 			for (var i = 0; i < $rootScope.participantSurvey.PrototypeTests.length; i++) {
-				if ($scope.codeOptions[j].Code == $rootScope.participantSurvey.PrototypeTests[i].PrototypeCode && $rootScope.participantSurvey.PrototypeTests[i].Completed) {
+				if ($scope.codeOptions[j] == $rootScope.participantSurvey.PrototypeTests[i].PrototypeCode && $rootScope.participantSurvey.PrototypeTests[i].Completed) {
 					found = true;
 					break;
 				}
