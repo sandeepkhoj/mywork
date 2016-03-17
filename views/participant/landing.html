@@ -3,16 +3,19 @@
   <div class="panel">
   	<div class="panel-body">
         <a href="javascript:;" class="button expand large" data-ng-class="{'disabled': !allowTestProtoType()}" data-ng-click="testPrototype()" data-ng-disabled="!allowTestProtoType()">TEST A PROTOTYPE</a>
-      <div data-ng-if="prototypeCode != null" class="jumbotron">
+      <div data-ng-if="prototypeCode != null || inCompletedPrototypeTest.length != 0" class="jumbotron">
       	<a href="javascript:;" class="jumbotron-title" data-ng-click="prototypeQuestion()">CURRENT TESTING PROTOTYPE</a>
 
-        <a href="javascript:;" class="jumbotron-context" data-ng-click="prototypeQuestion()">{{prototypeCode}}</a>
+        <a href="javascript:;" data-ng-if="prototypeCode != null" class="jumbotron-context" data-ng-click="prototypeQuestion()">{{prototypeCode}}</a>
+          <div ng-repeat="prototype in inCompletedPrototypeTest">
+              <a href="javascript:;" class="jumbotron-context">{{prototype.PrototypeCode}}</a>
+          </div>
 
       </div>
 
-        <div data-ng-if="prototypeTest.length != 0" class="jumbotron">
+        <div data-ng-if="completedPrototypeTest.length != 0" class="jumbotron">
             <a href="javascript:;" class="jumbotron-title" data-ng-click="prototypeQuestion()">COMPLETED TESTING PROTOTYPE</a>
-            <div ng-repeat="prototype in prototypeTest">
+            <div ng-repeat="prototype in completedPrototypeTest">
                 <a href="javascript:;" class="jumbotron-context">{{prototype.PrototypeCode}}</a>
             </div>
 

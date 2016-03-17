@@ -1271,7 +1271,8 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 		footerLess: false
 	});
 	$scope.codeOptions = [];
-	$scope.prototypeTest = [];
+	$scope.completedPrototypeTest = [];
+	$scope.inCompletedPrototypeTest = [];
 	$scope.prototypeCode = $rootScope.prototypeCode;
 
 	if(angular.isUndefined($rootScope.currentParticipant)) {
@@ -1307,9 +1308,13 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 						method: 'GET',
 						url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + data.PrototypeTests[j].Id
 					}).then(function (data) {
-						$rootScope.prototypeTest.push(data);
-						$scope.prototypeTest.push(data)
-						console.log(data);
+						if(data.Completed) {
+							$scope.completedPrototypeTest.push(data);
+						}
+						else {
+							$scope.inCompletedPrototypeTest.push(data);
+						}
+
 					});
 				}
 				localStorageService.set('prototypeTest', JSON.stringify($rootScope.prototypeTest));
@@ -1579,7 +1584,8 @@ appControllers.controller('prototypeQuestionCtrl',function($scope,$rootScope,$lo
 					method: 'PUT',
 					url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + $rootScope.prototypeTest.Id + '/Complete?fileName=&afterWeight='
 				}).then(function() {
-					$rootScope.completed = true;
+					$rootScope.prototypeCode = null;
+					localStorageService.set('prototypeCode',null);
 					$location.path('/landingParticipant');
 				});
 			});	
