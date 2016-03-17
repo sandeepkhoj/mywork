@@ -1285,41 +1285,42 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 		console.log($scope.prototypeCode);
 	}
 
+
 	common.makeRequest({
 		method: 'GET',
-		url: serviceBaseUri + 'ParticipantSurveyService.svc/Surveys/' + $rootScope.participantSurvey.SurveyId + '/PrototypeCodes'
+		url: serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/' + $rootScope.currentParticipant.Id
 	}).then(function(data) {
-		console.log(data);
-		for (var i in data) {
-			$scope.codeOptions.push(data[i]);
-		}
+		$rootScope.participantSurvey = data;
+		localStorageService.set('participantSurvey', JSON.stringify($rootScope.participantSurvey));
 		common.makeRequest({
 			method: 'GET',
-			url: serviceBaseUri + 'ParticipantSurveyService.svc/ParticipantSurveys/' + $rootScope.currentParticipant.Id
+			url: serviceBaseUri + 'ParticipantSurveyService.svc/Surveys/' + $rootScope.participantSurvey.SurveyId + '/PrototypeCodes'
 		}).then(function(data) {
-			$rootScope.participantSurvey = data;
-			localStorageService.set('participantSurvey', JSON.stringify($rootScope.participantSurvey));
 			console.log(data);
-			if(data.PrototypeTests != null) {
-				$rootScope.prototypeTest = [];
-				for (var j = 0; j < data.PrototypeTests.length; j++) {
-					common.makeRequest({
-						method: 'GET',
-						url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + data.PrototypeTests[j].Id
-					}).then(function (data) {
-						if($scope.prototypeCode == data.PrototypeCode) {
-							$scope.prototypeCode = null;
-						}
-						if(data.Completed) {
-							$scope.completedPrototypeTest.push(data);
-						}
-						else {
-							$scope.inCompletedPrototypeTest.push(data);
-						}
-					});
-				}
+			for (var i in data) {
+				$scope.codeOptions.push(data[i]);
 			}
 		});
+		console.log(data);
+		if(data.PrototypeTests != null) {
+			$rootScope.prototypeTest = [];
+			for (var j = 0; j < data.PrototypeTests.length; j++) {
+				common.makeRequest({
+					method: 'GET',
+					url: serviceBaseUri + 'ParticipantSurveyService.svc/PrototypeTests/' + data.PrototypeTests[j].Id
+				}).then(function (data) {
+					if($scope.prototypeCode == data.PrototypeCode) {
+						$scope.prototypeCode = null;
+					}
+					if(data.Completed) {
+						$scope.completedPrototypeTest.push(data);
+					}
+					else {
+						$scope.inCompletedPrototypeTest.push(data);
+					}
+				});
+			}
+		}
 	});
 
 
