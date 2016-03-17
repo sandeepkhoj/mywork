@@ -1490,7 +1490,7 @@ appControllers.controller('prototypeQuestionCtrl',function($scope,$rootScope,$lo
 				}
 			}
 		});
-		$scope.step = 0;
+		//$scope.step = 0;
 	});
 	// Upload photo
 	$scope.upload = function(flow) {
