@@ -1,0 +1,188 @@
+<div class="participant">
+
+  <div class="panel">
+  	<div class="panel-header">
+  		<h3 class="icon icon-profile-question">Profile Question</h3>
+    </div>
+    <!--/ .panel-header -->
+
+      <div class="panel-body">
+    	<div class="widget">
+            <div class="flyout-error" data-ng-show="submitted && !(monthSelected.selected && dateSelected.selected && yearSelected.selected && weightSelected.selected && heightFeetSelected.selected && heightInchSelected.selected && allAnswered)">
+                <p data-ng-show="errorCode == 0" class="icon icon-error">Some answers are missing. Please review and submit again</p>
+                <p data-ng-show="errorCode == 1" class="icon icon-error">The Birthdate selected is in future or invalid</p>
+            </div>
+        <!--/ .error -->
+            <div class="form-control">
+                <label>Today’s Date</label>
+                <div class="row">
+                    <div class="small-4 columns">
+                        <div class="input-control first" data-ng-class="{'error': submitted && !todayMonthSelected.selected}">
+                            <div data-ui-select data-ng-model="todayMonthSelected.selected" data-theme="select2">
+                                <div data-ui-select-match data-placeholder="mm">{{todayMonthSelected.selected}}</div>
+                                <div data-ui-select-choices data-repeat="person in monthOptions">
+                                    <div data-ng-bind-html="person.text"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ .input-control -->
+                    </div>
+                    <div class="small-4 columns">
+                        <div class="input-control" data-ng-class="{'error': submitted && !todayDateSelected.selected}">
+                            <div data-ui-select data-ng-model="todayDateSelected.selected" data-theme="select2">
+                                <div data-ui-select-match data-placeholder="dd">{{$select.selected}}</div>
+                                <div data-ui-select-choices data-repeat="person in dateOptions">
+                                    <div data-ng-bind-html="person"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ .input-control -->
+                    </div>
+                    <div class="small-4 columns">
+                        <div class="input-control last" data-ng-class="{'error': submitted && !todayYearSelected.selected}">
+                            <div data-ui-select data-ng-model="todayYearSelected.selected" data-theme="select2">
+                                <div data-ui-select-match data-placeholder="yyyy">{{$select.selected}}</div>
+                                <div data-ui-select-choices data-repeat="person in yearOptions">
+                                    <div data-ng-bind-html="person"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ .input-control -->
+                    </div>
+                </div>
+                <!--/ .row -->
+            </div>
+        <div class="form-control">
+        	<label>Birthdate</label>
+          <div class="row">
+          	<div class="small-4 columns">
+            	<div class="input-control first" data-ng-class="{'error': submitted && !monthSelected.selected}">
+                <div data-ui-select data-ng-model="monthSelected.selected" data-theme="select2">
+                  <div data-ui-select-match data-placeholder="mm">{{monthSelected.selected}}</div>
+                  <div data-ui-select-choices data-repeat="person in monthOptions">
+                    <div data-ng-bind-html="person"></div>
+                  </div>
+                </div>
+              </div>
+              <!--/ .input-control -->
+            </div>
+            <div class="small-4 columns">
+            	<div class="input-control" data-ng-class="{'error': submitted && !dateSelected.selected}">
+                <div data-ui-select data-ng-model="dateSelected.selected" data-theme="select2">
+                  <div data-ui-select-match data-placeholder="dd">{{$select.selected}}</div>
+                  <div data-ui-select-choices data-repeat="person in dateOptions">
+                    <div data-ng-bind-html="person"></div>
+                  </div>
+                </div>
+              </div>
+              <!--/ .input-control -->
+            </div>
+            <div class="small-4 columns">
+            	<div class="input-control last" data-ng-class="{'error': submitted && !yearSelected.selected}">
+                <div data-ui-select data-ng-model="yearSelected.selected" data-theme="select2">
+                  <div data-ui-select-match data-placeholder="yyyy">{{$select.selected}}</div>
+                  <div data-ui-select-choices data-repeat="person in yearOptions">
+                    <div data-ng-bind-html="person"></div>
+                  </div>
+                </div>
+              </div>
+              <!--/ .input-control -->
+            </div>
+          </div>
+          <!--/ .row -->
+        </div>
+        <!--/ .form-control -->
+        <div class="form-control" data-ng-class="{'error': submitted && !weightSelected.selected}">
+        	<label>Weight <span class="grey">(in pounds)</span></label>
+          <div data-ui-select data-ng-model="weightSelected.selected" data-theme="select2">
+            <div data-ui-select-match data-placeholder="Select One">{{$select.selected}}</div>
+            <div data-ui-select-choices data-repeat="person in weightOptions">
+              <div data-ng-bind-html="person"></div>
+            </div>
+          </div>
+        </div>
+        <!--/ .form-control -->
+        <div class="form-control">
+        	<label>Height <span class="grey">(feet/inches)</span></label>
+          <div class="row">
+          	<div class="small-6 columns">
+            	<div class="input-control first" data-ng-class="{'error': submitted && !heightFeetSelected.selected}">
+                <div data-ui-select data-ng-model="heightFeetSelected.selected" data-theme="select2">
+                  <div data-ui-select-match data-placeholder="Select One">{{$select.selected}}</div>
+                  <div data-ui-select-choices data-repeat="person in heightFeetOptions">
+                    <div data-ng-bind-html="person"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="small-6 columns">
+            	<div class="input-control last" data-ng-class="{'error': submitted && !heightInchSelected.selected}">
+              	<div data-ui-select data-ng-model="heightInchSelected.selected" data-theme="select2">
+                  <div data-ui-select-match data-placeholder="Select One">{{$select.selected}}</div>
+                  <div data-ui-select-choices data-repeat="person in heightInchOptions">
+                    <div data-ng-bind-html="person"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/ .form-control -->
+      </div>
+      <!--/ .widget -->
+      <div class="widget" data-ng-repeat="item in profileQuestions" data-ng-class="{'last': $last, 'error': submitted && questionInvalid[ $index ]}">
+      	<div class="media">
+        	<p>{{item.Text}}</p>
+          <ul data-ng-if="item.QuestionType == 0">
+          	<li data-ng-repeat="ans in item.AnswerOptions">
+            	<label data-ng-if="ans.Type == 0" class="radio">
+            		<input type="radio" data-ng-model="item.Checked" data-ng-value="ans.Id" data-ng-click="validate();"/>
+                <span></span>{{ans.Label}}
+              </label>
+                <label data-ng-if="ans.Type == 2">
+                    <input type="text" data-ng-model="item.Input" placeholder="{{ans.Label}}"/>
+                </label>
+                <label data-ng-if="ans.Type == 3">
+                    <input type="date" data-ng-model="item.Input" placeholder="{{ans.Label}}"/>
+                </label>
+                <label data-ng-if="ans.Type == 4">
+                    <input type="time" data-ng-model="item.Input" placeholder="{{ans.Label}}"/>
+                </label>
+            </li>
+          </ul>
+            <ul data-ng-if="item.QuestionType == 2">
+                <li ng-repeat="ans in item.AnswerOptions">
+                    <label class="checkbox">
+                        <input type="checkbox" data-ng-model="ans.Checked" data-ng-value="ans.Id" data-ng-click="validate()">
+                        <span></span>{{ans.Label}}
+                    </label>
+                </li>
+            </ul>
+          <div class="ui-slider-wrapper" data-ng-if="item.QuestionType == 1">
+            <div data-ui-slider data-min="{{item.AnswerOptions[0].FromValue < item.AnswerOptions[0].ToValue ? item.AnswerOptions[0].FromValue : item.AnswerOptions[0].ToValue}}" data-max="{{item.AnswerOptions[0].FromValue < item.AnswerOptions[0].ToValue ? item.AnswerOptions[0].ToValue : item.AnswerOptions[0].FromValue}}" data-step="{{item.AnswerOptions[0].Increment}}" data-ng-model="item.Value"></div>
+            <div class="scanner">
+              <div class="bar">
+                <i data-ng-repeat="value in item.AnswerOptions[0].Values" data-ng-class="{'first': $first, 'last': $last}" style="left: {{100.0 / (item.AnswerOptions[0].Values.length - 1) * $index}}%"></i>
+              </div>
+            </div>
+            <!--/ .scanner -->
+            <div class="arix">
+              <strong class="min">{{item.AnswerOptions[0].FromValueLabel}}</strong>
+              <strong class="max">{{item.AnswerOptions[0].ToValueLabel}}</strong>
+            </div>
+          </div>
+        </div>
+        <!--/ .media -->
+      </div>
+      <!--/ .widget -->
+      <div class="buttons-group">
+      	<a href="javascript:;" class="button button-submit icon icon-submit" data-ng-click="submitQuery($event)">SUBMIT</a>
+      </div>
+      <!--/ .buttons-group -->
+    </div>
+    <!--/ .panel-body -->
+  </div>
+  <!--/ .panel -->
+
+</div>
+<!--/ .Participant -->

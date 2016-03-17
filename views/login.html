@@ -1,0 +1,40 @@
+<div class="login">
+	<form name="loginForm">
+  	<i class="photo"></i>
+    <h1>THOLOS</h1>
+    <div class="row error-info" data-ng-class="{'shown': error.flag}" data-ng-bind-html="error.infor"></div>
+    <!--/ .error-info -->
+    <div class="row icon row-inputs username">
+    	<input type="text" placeholder="Username" data-ng-model="login.username" ng-keyup="$event.keyCode == 13 && valdate()" name="username" required="required" maxlength="64" autocomplete="on" autofocus="autofocus"/>
+    </div>
+    <!--/ .username -->
+    <div class="row icon row-inputs password">
+    	<input type="password" placeholder="Password" data-ng-model="login.password" ng-keyup="$event.keyCode == 13 && valdate()" name="password" required="required" autocomplete="on"/>
+    </div>
+        <div class="row icon row-inputs" style="background-color: transparent;">
+
+        <input data-ng-click="rememberMe()" data-ng-model="remember" style="float: left;" name="remember" type="checkbox"> <label style="height: 37px;padding: 10px 0;">Remember Me</label>
+        </div>
+    <!--/ .password -->
+    <div class="row row-common">
+    	<!--<div class="small-6 columns">
+      	<label class="checkbox">
+        	<input type="checkbox" />
+          <span></span>
+          Remember Me!
+        </label>
+      </div>
+      <div class="small-6 columns">
+      	<a href="javascript:;" class="right">
+        	Forgot Password?
+        </a>
+      </div>-->
+    </div>
+    <!--/ .row -->
+    <div class="row">
+    	<a href="javascript:;" class="button expand btn-login" data-ng-click="valdate();">LOGIN</a>
+    </div>
+  </form>
+  <!--/ Form -->
+</div>
+<!--/ .login -->

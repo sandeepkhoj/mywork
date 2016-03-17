@@ -1,0 +1,200 @@
+<div class="banner">
+  <div class="row">
+  	<div class="small-12 columns">
+	    <h2>List of Surveys</h2>
+    </div>
+  </div>
+</div>
+<!--/ .banner -->
+<div class="main-container">
+	<div class="row">
+  	<div class="large-3 columns">
+    	<aside>
+        <div class="panel panel-status">
+          <h3>My Status</h3>
+          <ul>
+            <li>
+              <span class="icon icon-closed">Closed Surveys</span>
+              <strong class="right badge">{{myStatus.closed}}</strong>
+            </li>
+            <li>
+              <span class="icon icon-published">Published Surveys</span>
+              <strong class="right badge">{{myStatus.published}}</strong>
+            </li>
+            <li>
+              <span class="icon icon-draft">Draft Surveys</span>
+              <strong class="right badge">{{myStatus.draft}}</strong>
+            </li>
+          </ul>
+        </div>
+        <!--/ .panel -->
+        <div class="panel panel-quick-access" data-ng-class="{'edit-status': quick.edit}">
+          <h3>Quick Access</h3>
+          <ul>
+            <li class="icon" data-ng-repeat="survey in surveys | toArray: false | filter: filterQuickAccess(quickAccessSurveys)">
+            	<label class="checkbox">
+            		<input type="checkbox" data-ng-model="survey.QuickAccess" />
+                <span></span>
+              </label>
+              <a data-ng-href="#/surveyDetails/{{survey.Id}}" href="javascript:;">{{survey.Name}}</a>
+              <span>{{survey.CellName}}</span>
+            </li>
+          </ul>
+          <div class="buttons-group">
+            <a href="javascript:;" class="button icon icon-edit" data-ng-show="!quick.edit" data-ng-click="editQuick()">EDIT</a>
+            <a href="javascript:;" class="button-default icon icon-cancel" data-ng-show="quick.edit" data-ng-click="cancelQuick()">CANCEL</a>
+            <a href="javascript:;" class="button icon icon-done" data-ng-show="quick.edit" data-ng-click="doneQuick()">DONE</a>
+          </div>
+        </div>
+        <!--/ .panel -->
+      </aside>
+    </div>
+    <div class="large-9 columns">
+    	<div class="main" data-ng-init="view = 'list'">
+        <div class="bar-actions clearfix">
+        	<div class="row">
+          	<div class="medium-7 small-10 columns">
+              <div class="left group-views">
+                <a href="javascript:;" class="icon icon-list" data-ng-class="{'active': view === 'list'}" data-ng-click="switch('list')"></a>
+                <a href="javascript:;" class="icon icon-grid" data-ng-class="{'active': view === 'grid'}" data-ng-click="switch('grid')"></a>
+              </div>
+              <!--/ .group-views -->
+              <div class="left search icon">
+                <input type="text" placeholder="Search" data-ng-model="query" ng-keyup="search()"/>
+              </div>
+              <!--/ .search -->
+            </div>
+            <div class="medium-5 small-2 columns">
+            	<a href="#/createSurvey" class="button right icon icon-add">CREATE NEW SURVEY</a>
+            </div>
+          </div> 
+        </div>
+        <!--/ .bar-actions -->
+        <div class="table-responsive" data-ng-show="view === 'list'">
+          <table class="table" data-ng-init="sort.sortingOrder = 'StatusText'">
+            <thead>
+              <tr>
+                <th data-ng-click="triggerOrder('Name')" class="sorter survey-cells" data-ng-class="{'asc': sort.sortingOrder === 'Name', 'desc': sort.sortingOrder === '-Name'}">
+                  <span class="icon">Survey</span>
+                </th>
+                <th data-ng-click="triggerOrder('CellName')" class="sorter cell-cells" data-ng-class="{'asc': sort.sortingOrder === 'CellName', 'desc': sort.sortingOrder === '-CellName'}">
+                  <span class="icon">Cell</span>
+                </th>
+                <th data-ng-click="triggerOrder('StatusText')" class="sorter status-cells" data-ng-class="{'asc': sort.sortingOrder === 'StatusText', 'desc': sort.sortingOrder === '-StatusText'}">
+                  <span class="icon">Status</span>
+                </th>
+                <th data-ng-click="triggerOrder('Date')" class="sorter center" data-ng-class="{'asc': sort.sortingOrder === 'Date', 'desc': sort.sortingOrder === '-Date'}">
+                  <span class="icon">Date</span>
+                </th>
+                <th data-ng-click="triggerOrder('CompletedSurveysNumber')" class="sorter completed-surveys-cells" data-ng-class="{'asc': sort.sortingOrder === 'CompletedSurveysNumber', 'desc': sort.sortingOrder === '-CompletedSurveysNumber'}">
+                  <span class="icon">Completed Surveys</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-ng-repeat="survey in pagedItems[currentPage] | orderBy:sort.sortingOrder:sort.reverse">
+                <td>
+                  <a data-ng-href="#/surveyDetails/{{survey.Id}}" href="javascript:;">{{survey.Name}}</a>
+                </td>
+                <td><span class="cell">{{survey.CellName}}</span></td>
+                <td><span class="status icon icon-closed" data-ng-class="{'icon-closed': survey.StatusText === 'Closed', 'icon-published': survey.StatusText === 'Published', 'icon-draft': survey.StatusText === 'Draft'}">{{survey.StatusText}}</span></td>
+                <td class="center">{{survey.Date | date: 'MM/dd/yyyy'}}</td>
+                <td class="center">{{survey.CompletedSurveysNumber}}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+            <td colspan="6">
+              <div class="pagination pull-right">
+                <ul style="float: right;">
+                  <li ng-class="{disabled: currentPage == 0}">
+                    <a href ng-click="prevPage()" class="button">« Prev</a>
+                  </li>
+
+                  <li ng-repeat="n in range(pagedItems.length, currentPage, currentPage + gap) "
+                      ng-class="{active: n == currentPage}"
+                      ng-click="setPage()">
+                    <a href ng-bind="n + 1" class="button">1</a>
+                  </li>
+
+                  <li ng-class="{disabled: (currentPage) == pagedItems.length - 1}">
+                    <a href ng-click="nextPage()" class="button">Next »</a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+            </tfoot>
+          </table>
+          <!--/ table -->
+        </div>
+        <div class="grid" data-ng-show="view === 'grid'">
+          <div class="widget widget-closed" data-ng-show="myStatus.closed > 0">
+            <h4 class="icon">Closed</h4>
+            <div class="widget-body">
+              <div data-slick data-slides-to-show=slider.show data-slides-to-scroll=slider.show data-slick-apply="applyClosed" data-init-onload=true data-infinite=false class="slider multiple-items">
+                <div class="slide" data-ng-repeat="survey in surveys | toArray: false | filter: {Status: 2}">
+                  <div>
+                    <a data-ng-href="#/surveyDetails/{{survey.Id}}" href="javascript:;">{{survey.Name}}</a>
+                    <span>{{survey.CellName}}</span>
+                    <span>{{survey.Date | date: 'MM/dd/yyyy'}}</span>
+                    <span>No. of Completed Survey {{survey.CompletedSurveysNumber}}</span>
+                  </div>
+                </div>
+              </div>
+              <!-- /.Slider -->
+            </div>
+            <!--/ .widget-body -->
+          </div>
+          <!--/ .widget -->
+          <div class="widget widget-published" data-ng-show="myStatus.published > 0">
+            <h4 class="icon">Published</h4>
+            <div class="widget-body">
+              <div data-slick data-slides-to-show=slider.show data-slides-to-scroll=slider.show data-slick-apply="applyPublished" data-init-onload=true data-infinite=false class="slider multiple-items">
+                <div class="slide" data-ng-repeat="survey in surveys | toArray: false | filter: {Status: 1}">
+                  <div>
+                    <a data-ng-href="#/surveyDetails/{{survey.Id}}" href="javascript:;">{{survey.Name}}</a>
+                    <span>{{survey.CellName}}</span>
+                    <span>{{survey.Date | date: 'MM/dd/yyyy'}}</span>
+                    <span>No. of Completed Survey {{survey.CompletedSurveysNumber}}</span>
+                  </div>
+                </div>
+              </div>
+              <!-- /.Slider -->
+            </div>
+            <!--/ .widget-body -->
+          </div>
+          <!--/ .widget -->
+          <div class="widget widget-draft" data-ng-show="myStatus.draft > 0">
+            <h4 class="icon">Draft</h4>
+            <div class="widget-body">
+              <div data-slick data-slides-to-show=slider.show data-slides-to-scroll=slider.show data-slick-apply="slickDraft" data-init-onload=true data-infinite=false class="slider multiple-items">
+                <div class="slide" data-ng-repeat="survey in surveys | toArray: false | filter: {Status: 0}">
+                  <div>
+                    <a data-ng-href="#/surveyDetails/{{survey.Id}}" href="javascript:;">{{survey.Name}}</a>
+                    <span>{{survey.CellName}}</span>
+                    <span>{{survey.Date | date: 'MM/dd/yyyy'}}</span>
+                    <span>No. of Completed Survey {{survey.CompletedSurveysNumber}}</span>
+                  </div>
+                </div>
+              </div>
+              <!-- /.Slider -->
+            </div>
+            <!--/ .widget-body -->
+          </div>
+          <!--/ .widget -->
+        </div>
+        <!--/ .grid -->
+      </div>
+    </div>
+  </div>
+  <!--/ .row -->
+	<div class="container clearfix">
+  	<aside class="left">
+    	
+    </aside>
+    <!--/ aside --> 
+    
+    <!--/ .main -->
+  </div>
+  <!--/ .container -->
+</div>
+<!--/ .main-container -->

@@ -1,0 +1,380 @@
+<div class="banner">
+    <div class="row">
+        <div class="small-12 columns">
+            <h2>Survey Details</h2>
+        </div>
+    </div>
+</div>
+<!--/ .banner -->
+<div class="main-container">
+    <div class="container-details clearfix" data-ng-show="!editStatus">
+        <div class="row">
+            <div class="buttons-group clearfix">
+                <a href="#/landingManager" class="button-default icon left button-cancel icon-back" data-ng-click="back();">BACK TO HOME</a>
+                <a href="javascript:;" data-ng-if="survey.Draft" class="button icon right button-edit icon-edit" data-ng-click="edit();">EDIT</a>
+                <a href="javascript:;" data-ng-if="!survey.Draft" class="button right button-edit" data-ng-click="downloadResult();">DOWNLOAD RESULT</a>
+                <!--<a href="javascript:;" class="button-default icon right button-duplicate icon-duplicate">DUPLICATE</a>-->
+            </div>
+            <!--/ .buttons-group -->
+            <div class="section">
+                <div class="panel">
+                    <dl>
+                        <dt class="left">Survey Name<span class="right">:</span></dt>
+                        <dd>{{survey.Name}}</dd>
+                        <dt class="left">Cell Name<span class="right">:</span></dt>
+                        <dd>{{survey.CellName}}</dd>
+                        <dt class="left">Survey Status<span class="right">:</span></dt>
+                        <dd><span class="status icon" data-ng-class="{'icon-closed': survey.StatusText === 'Closed', 'icon-published': survey.StatusText === 'Published', 'icon-draft': survey.StatusText === 'Draft'}">{{survey.StatusText}}</span></dd>
+                        <dt class="left">Date Created<span class="right">:</span></dt>
+                        <dd>{{survey.Date | date: 'MM/dd/yyyy'}}</dd>
+                        <dt class="left">Number of Completed Surveys<span class="right">:</span></dt>
+                        <dd>{{survey.CompletedSurveysNumber}}</dd>
+                        <dt class="left">Prototype Code(s)<span class="right">:</span></dt>
+                        <dd><span data-ng-repeat="code in survey.PrototypeCodes">{{code.Code}}{{$last ? '' : ', '}}</span></dd>
+                        <dt class="left">Number of Prototypes per Code<span class="right">:</span></dt>
+                        <dd><span data-ng-repeat="code in survey.PrototypeCodes">{{code.PrototypesPerCode}}{{$last ? '' : ', '}}</span></dd>
+                    </dl>
+                </div>
+                <!--/ .panel -->
+                <div class="panel panel-questions">
+                    <h4>Prototype Questions</h4>                   
+                    <div class="rows" data-ng-repeat="item in survey.PrototypeQuestions">
+                        <span class="index">{{$index + 1}}</span>
+                        <div class="list">
+                            <strong>{{item.Question.Text}}</strong>
+                            <ul class="clearfix">
+                                <li class="left" data-ng-if="item.Question.QuestionType == 0" data-ng-repeat="answer in item.Question.AnswerOptions">{{answer.Label}}</li>
+                                <li class="left" data-ng-if="item.Question.QuestionType == 1">Range From</li>
+                                <li class="left" data-ng-if="item.Question.QuestionType == 1">{{item.Question.AnswerOptions[0].FromValueLabel}}</li>
+                                <li class="left" data-ng-if="item.Question.QuestionType == 1">Range To</li>
+                                <li class="left" data-ng-if="item.Question.QuestionType == 1">{{item.Question.AnswerOptions[0].ToValueLabel}}</li>
+                            </ul>
+                        </div>
+                        <div class="isOrHasDependant">
+                            <div ng-show="item.DependantQuestionsId" data-ng-repeat="questId in item.DependantQuestionsId">
+                                <span class="indicatorHasDependant" />
+                                {{questId}}
+                            </div>
+                            <div ng-show="item.BelongsToQuestionId">
+                                <span class="indicatorIsDependant" />
+                                {{item.BelongsToQuestionId}}
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ .row -->
+                </div>
+                <!--/ .panel -->
+                <div class="panel panel-questions">
+                    <h4>Post-testing Questions</h4>
+                    <div class="rows" data-ng-repeat="item in survey.PostTestingQuestions ">
+                        <span class="index">{{$index + 1}}</span>
+                        <div class="list">
+                            <strong>{{item.Question.Text}}</strong>
+                            <ul class="clearfix">
+                                <li class="left" data-ng-if="item.Question.QuestionType == 0" data-ng-repeat="answer in item.Question.AnswerOptions">{{answer.Label}}</li>
+                                <li class="left" data-ng-if="item.Question.QuestionType == 1">Range From</li>
+                                <li class="left" data-ng-if="item.Question.QuestionType == 1">{{item.Question.AnswerOptions[0].FromValueLabel}}</li>
+                                <li class="left" data-ng-if="item.Question.QuestionType == 1">Range To</li>
+                                <li class="left" data-ng-if="item.Question.QuestionType == 1">{{item.Question.AnswerOptions[0].ToValueLabel}}</li>
+                            </ul>
+                        </div>
+                        <div class="isOrHasDependant">
+                            <div ng-show="item.DependantQuestionsId" data-ng-repeat="questId in item.DependantQuestionsId">
+                                <span class="indicatorHasDependant" />
+                                {{questId}}
+                            </div>
+                            <div ng-show="item.BelongsToQuestionId">
+                                <span class="indicatorIsDependant" />
+                                {{item.BelongsToQuestionId}}
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ .row -->
+                </div>
+                <!--/ .panel -->
+            </div>
+            <!--/ .section -->
+            <div class="buttons-group clearfix">
+                <a href="javascript:;" class="button-default icon left button-download icon-download" data-ng-click="downloadParticipants();">DOWNLOAD PARTICIPANT LOGIN</a>
+                <a href="javascript:;" data-ng-if="survey.Draft" class="button icon icon-after right button-publish icon-publish" data-ng-click="publish();">PUBLISH</a>
+                <a href="javascript:;" data-ng-if="survey.Status == 1" class="button icon icon-after right button-publish icon-publish" data-ng-click="close();">CLOSE</a>
+            </div>
+            <!--/ .buttons-group -->
+        </div>
+    </div>
+    <!--/ .container -->
+    <div class="container-details editabled clearfix" data-ng-show="editStatus">
+        <div class="row">
+            <div class="section">
+                <form name="editSurveyForm">
+                    <div class="error-info" data-ng-show="submitted && editSurveyForm.$invalid">
+                        <p class="icon icon-error" data-ng-show="editSurveyForm.surveyName.$invalid || editSurveyForm.cell.$invalid">
+                            <strong>
+                                <span data-ng-show="editSurveyForm.surveyName.$invalid">Survey Name</span>
+                                <span data-ng-show="editSurveyForm.surveyName.$invalid && editSurveyForm.cell.$invalid">,</span>
+                                <span data-ng-show="editSurveyForm.cell.$invalid">Cell Name</span>
+                            </strong> cannot be empty.
+                        </p>
+                    </div>
+                    <div class="error-info" data-ng-show="submitted && !codeMatching">
+                        <p class="icon icon-error" data-ng-show="!codeMatching">
+                            <strong>
+                                <span>Prototype Code</span>
+                            </strong> and
+                            <strong>
+                                <span>Number of Prototypes per Code</span>
+                            </strong> must match.
+                        </p>
+                    </div>
+                    <div class="error-info" data-ng-show="submitted && !positive">
+                        <p class="icon icon-error" data-ng-show="!positive">
+                            <strong>
+                                <span>Number of Prototypes per Code</span>
+                            </strong> must be positive number.
+                        </p>
+                    </div>
+                    <!--/ .error-info -->
+                    <div class="panel">
+                        <strong class="point"><span class="required">* </span> indicates required field</strong>
+                        <div class="row">
+                            <label><span class="required">*</span> Survey Name<span class="dot">:</span></label>
+                            <div class="input-control large">
+                                <input type="text" data-ng-model="_survey.Name" name="surveyName" data-ng-class="{'error': submitted && editSurveyForm.surveyName.$invalid}" required="required" maxlength="64" />
+                            </div>
+                        </div>
+                        <!--/ .row -->
+                        <div class="row">
+                            <label><span class="required">*</span> Cell Name<span class="dot">:</span></label>
+                            <div class="input-control large">
+                                <input type="text" data-ng-model="_survey.CellName" name="cell" data-ng-class="{'error': submitted && editSurveyForm.cell.$invalid}" required="required" maxlength="64" />
+                            </div>
+                        </div>
+                        <!--/ .row -->
+                        <div class="row">
+                            <label>Survey Status<span class="dot">:</span></label>
+                            {{survey.StatusText}}
+                        </div>
+                        <!--/ .row -->
+                        <div class="row">
+                            <label>Date Created<span class="dot">:</span></label>
+                            {{survey.Date | date: 'MM/dd/yyyy'}}
+                        </div>
+                        <!--/ .row -->
+                        <div class="row">
+                            <label>Number of Completed Surveys<span class="dot">:</span></label>
+                            {{survey.CompletedSurveysNumber}}
+                        </div>
+                        <!--/ .row -->
+                        <div class="row">
+                            <label>Prototype Code(s)<span class="dot">:</span></label>
+                            <div class="code-fiels">
+                                <div data-ng-repeat="item in _survey.PrototypeCodes" data-ng-class="{'last': $last}">
+                                    <div class="input-control small">
+                                        <input type="text" data-ng-class="{'error': submitted && editSurveyForm['code' + $index].$invalid}" name="code{{$index}}" data-ng-model="item.Code" maxlength="64" />
+                                    </div>
+                                    <span class="icon icon-additional" data-ng-hide="$last"></span>
+                                    <a href="javascript:;" class="icon icon-additional" data-ng-show="$last" data-ng-click="addFields()"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ .row -->
+                        <div class="row row-num-code">
+                            <label>Number of Prototypes per Code<span class="dot">:</span></label>
+                            <div class="code-fiels">
+                                <div class="input-control small" data-ng-repeat="item in _survey.PrototypeCodes">
+                                    <input type="text" data-ng-class="{'error': submitted && editSurveyForm['num' + $index].$invalid}" name="num{{$index}}" data-ng-model="item.PrototypesPerCode" data-numeric-only maxlength="5" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ .row -->
+                    </div>
+                    <!--/ .panel -->
+                </form>
+                <div class="panel panel-questions">
+                    <h4>Prototype Questions</h4>
+                    <div class="total"><strong>{{edit.selectedPrototypeQuestions.length}}</strong> Questions Added</div>
+                    <div class="widgets-group clearfix">
+                        <div class="widget scroller left">
+                            <div class="questions" data-ng-repeat="item in edit.prototypeQuestions" data-drag="true" data-ng-model="edit.prototypeQuestions" data-jqyoui-draggable="{onStart:'onStart(item,1,edit.prototypeQuestions)',onStop: 'onStop(item)'}" data-jqyoui-options="{handle:'.drag-handle',revert:'invalid',helper: helper,scroll: false,containment: '.main-container'}" data-ng-class="{'last': ($last && edit.prototypeQuestions.length > 4)}" data-id="{{item.Id}}">
+                                <i class="drag-handle"></i>
+                                <h6>{{item.Text}}</h6>
+                                <ul class="clearfix">
+                                    <li data-ng-if="item.QuestionType == 0" data-ng-repeat="answer in item.AnswerOptions">{{answer.Label}}</li>
+                                    <li data-ng-if="item.QuestionType == 1">Range From</li>
+                                    <li data-ng-if="item.QuestionType == 1">{{item.AnswerOptions[0].FromValueLabel}}</li>
+                                    <li data-ng-if="item.QuestionType == 1">Range To</li>
+                                    <li data-ng-if="item.QuestionType == 1">{{item.AnswerOptions[0].ToValueLabel}}</li>
+                                </ul>
+                                <div class="isOrHasDependant">
+                                    <div ng-show="item.DependantQuestionsId" data-ng-repeat="questId in item.DependantQuestionsId">
+                                        <span class="indicatorHasDependant" />
+                                        {{questId}}
+                                    </div>
+                                    <div ng-show="item.BelongsToQuestionId">
+                                        <span class="indicatorIsDependant" />
+                                        {{item.BelongsToQuestionId}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ .widget -->
+                        <div class="point left">
+                            <div style="font-size:12px;" class="hasDependantIndicatorDesc">
+                                <img src="i/hasDependant.png" style="vertical-align: text-bottom" />
+                                <b>n</b>
+                                <div>
+                                    Has
+                                </div>
+                                <div>Dependant</div><div>Questions</div><div>with id = <b>n</b></div>
+                            </div>
+                            <div >&nbsp;</div>
+                            <div style="font-size:12px;" class="isDependantIndicatorDesc">
+                                <div>
+                                    <img src="i/isDependant.png" style="vertical-align: text-bottom" />
+                                    <b>n</b>
+                                </div>
+                                <div>Belongs to</div><div>Dependant</div><div>Question</div><div>with id = <b>n</b></div>
+                            </div>
+                            <span class="icon icon-drag-holder">DRAG N DROP</span>
+                        </div>
+                        <!--/ .point -->
+                        <div class="widget scroller left" data-ng-model="edit.selectedPrototypeQuestions" data-drop="true" data-jqyoui-options="{accept:'.ui-draggable:not([data-ng-model=edit.postTestingQuestions])'}" data-jqyoui-droppable="{multiple:true,beforeDrop:'beforeDrop(1,edit.prototypeQuestions,edit.selectedPrototypeQuestions)'}">
+                            <div class="questions" data-ng-repeat="item in edit.selectedPrototypeQuestions">
+                                <a href="javascript:;" class="icon icon-remove-question remove-question" data-ng-click="triggerModal($index,edit.selectedPrototypeQuestions)" data-ng-class="{'blur': edit.selectedPrototypeQuestions.modal[$index]}"></a>
+                                <div data-ng-show="item.Text" data-ng-class="{'blur': edit.selectedPrototypeQuestions.modal[$index]}">
+                                    <h6>{{item.Text}}</h6>
+                                    <ul class="clearfix">
+                                        <li data-ng-if="item.QuestionType == 0 || item.QuestionType == 2" data-ng-repeat="answer in item.AnswerOptions">{{answer.Label}}</li>
+                                        <li data-ng-if="item.QuestionType == 1">Range From</li>
+                                        <li data-ng-if="item.QuestionType == 1">{{item.AnswerOptions[0].FromValueLabel}}</li>
+                                        <li data-ng-if="item.QuestionType == 1">Range To</li>
+                                        <li data-ng-if="item.QuestionType == 1">{{item.AnswerOptions[0].ToValueLabel}}</li>
+                                    </ul>
+                                    <div class="isOrHasDependant">
+                                        <div ng-show="item.DependantQuestionsId" data-ng-repeat="questId in item.DependantQuestionsId">
+                                            <span class="indicatorHasDependant" />
+                                            {{questId}}
+                                        </div>
+                                        <div ng-show="item.BelongsToQuestionId">
+                                            <span class="indicatorIsDependant" />
+                                            {{item.BelongsToQuestionId}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ Question -->
+                                <div class="modal" data-ng-show="edit.selectedPrototypeQuestions.modal[$index]">
+                                    <p>Are you sure you want to remove this question?</p>
+                                    <div class="buttons-group">
+                                        <a href="javascript:;" class="button-default" data-ng-click="triggerOffModal($index,edit.selectedPrototypeQuestions)">NO</a>
+                                        <a href="javascript:;" class="button" data-ng-click="deleteQst($index,edit.prototypeQuestions,edit.selectedPrototypeQuestions)">YES</a>
+                                    </div>
+                                    <!--/ .button-group -->
+                                </div>
+                                <!--/ .modal -->
+                            </div>
+                            <!--/ .questions -->
+                            <div class="questions slot" data-ng-repeat="item in edit.prototypeQuestions" data-ng-class="{'last': ($last && edit.selectedPrototypeQuestions.length > 4)}">
+                                <div class="placeholder" data-ng-show="item.Text">
+                                    EMPTY SLOT
+                                    <small>“Drag n Drop” item here</small>
+                                </div>
+                                <!--/ .slot -->
+                            </div>
+                        </div>
+                        <!--/ .widget -->
+                    </div>
+                    <!--/ .widget-group -->
+                </div>
+                <!--/ .panel -->
+                <div class="panel panel-questions">
+                    <h4>Post-testing Questions</h4>
+                    <div class="total"><strong>{{edit.selectedPostTestingQuestions.length}}</strong> Questions Added</div>
+                    <div class="widgets-group clearfix">
+                        <div class="widget scroller left">
+                            <div class="questions" data-ng-repeat="item in edit.postTestingQuestions" data-drag="true" data-ng-model="edit.postTestingQuestions" data-jqyoui-draggable="{onStart:'onStart(item,2,null,edit.postTestingQuestions)',onStop: 'onStop(item)',animate:false}" data-jqyoui-options="{handle:'.drag-handle',revert:'invalid',helper: helper,scroll: false,containment: '.main-container'}" data-ng-class="{'last': ($last && edit.postTestingQuestions.length > 4)}" data-id="{{item.Id}}">
+                                <i class="drag-handle"></i>
+                                <h6>{{item.Text}}</h6>
+                                <ul class="clearfix">
+                                    <li data-ng-if="item.QuestionType == 0 || item.QuestionType == 2" data-ng-repeat="answer in item.AnswerOptions">{{answer.Label}}</li>
+                                    <li data-ng-if="item.QuestionType == 1">Range From</li>
+                                    <li data-ng-if="item.QuestionType == 1">{{item.AnswerOptions[0].FromValueLabel}}</li>
+                                    <li data-ng-if="item.QuestionType == 1">Range To</li>
+                                    <li data-ng-if="item.QuestionType == 1">{{item.AnswerOptions[0].ToValueLabel}}</li>
+                                </ul>
+                                <div class="isOrHasDependant">
+                                    <div ng-show="item.DependantQuestionsId" data-ng-repeat="questId in item.DependantQuestionsId">
+                                        <span class="indicatorHasDependant" />
+                                        {{questId}}
+                                    </div>
+                                    <div ng-show="item.BelongsToQuestionId">
+                                        <span class="indicatorIsDependant" />
+                                        {{item.BelongsToQuestionId}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ .widget -->
+                        <div class="point left">
+                            <span class="icon icon-drag-holder">DRAG N DROP</span>
+                        </div>
+                        <!--/ .point -->
+                        <div class="widget scroller left" data-drop="true" data-jqyoui-options="{accept:'.ui-draggable:not([data-ng-model=edit.prototypeQuestions])'}" data-ng-model="edit.selectedPostTestingQuestions" data-jqyoui-droppable="{multiple:true,beforeDrop:'beforeDrop(2,null,null,edit.postTestingQuestions,edit.selectedPostTestingQuestions)'}">
+                            <div class="questions" data-ng-repeat="item in edit.selectedPostTestingQuestions">
+                                <a href="javascript:;" class="icon icon-remove-question remove-question" data-ng-click="triggerPostModal($index,edit.selectedPostTestingQuestions)" data-ng-class="{'blur': edit.selectedPostTestingQuestions.modal[$index]}"></a>
+                                <div data-ng-show="item.Text" data-ng-class="{'blur': edit.selectedPostTestingQuestions.modal[$index]}">
+                                    <h6>{{item.Text}}</h6>
+                                    <ul class="clearfix">
+                                        <li data-ng-if="item.QuestionType == 0 || item.QuestionType == 2" data-ng-repeat="answer in item.AnswerOptions">{{answer.Label}}</li>
+                                        <li data-ng-if="item.QuestionType == 1">Range From</li>
+                                        <li data-ng-if="item.QuestionType == 1">{{item.AnswerOptions[0].FromValueLabel}}</li>
+                                        <li data-ng-if="item.QuestionType == 1">Range To</li>
+                                        <li data-ng-if="item.QuestionType == 1">{{item.AnswerOptions[0].ToValueLabel}}</li>
+                                    </ul>
+                                    <div class="isOrHasDependant">
+                                        <div ng-show="item.DependantQuestionsId" data-ng-repeat="questId in item.DependantQuestionsId">
+                                            <span class="indicatorHasDependant" />
+                                            {{questId}}
+                                        </div>
+                                        <div ng-show="item.BelongsToQuestionId">
+                                            <span class="indicatorIsDependant" />
+                                            {{item.BelongsToQuestionId}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ Question -->
+                                <div class="modal" data-ng-show="edit.selectedPostTestingQuestions.modal[$index]">
+                                    <p>Are you sure you want to remove this question?</p>
+                                    <div class="buttons-group">
+                                        <a href="javascript:;" class="button-default" data-ng-click="triggerOffPostModal($index,edit.selectedPostTestingQuestions)">NO</a>
+                                        <a href="javascript:;" class="button" data-ng-click="deletePostQst($index,edit.postTestingQuestions,edit.selectedPostTestingQuestions)">YES</a>
+                                    </div>
+                                    <!--/ .button-group -->
+                                </div>
+                                <!--/ .modal -->
+                            </div>
+                            <!--/ .questions -->
+                            <div class="questions slot" data-ng-repeat="item in edit.postTestingQuestions" data-ng-class="{'last': ($last && edit.selectedPostTestingQuestions.length > 4)}">
+                                <div class="placeholder" data-ng-show="item.Text">
+                                    EMPTY SLOT
+                                    <small>“Drag n Drop” item here</small>
+                                </div>
+                                <!--/ .slot -->
+                            </div>
+                        </div>
+                        <!--/ .widget -->
+                    </div>
+                    <!--/ .widget-group -->
+                </div>
+                <!--/ .panel -->
+            </div>
+            <!--/ .section -->
+            <div class="buttons-group clearfix">
+                <a href="javascript:;" class="button-default icon left button-cancel icon-cancel" data-ng-click="cancel();">CANCEL</a>
+                <a href="javascript:;" class="button icon right button-update icon-update" data-ng-click="update();">UPDATE</a>
+            </div>
+            <!--/ .buttons-group -->
+        </div>
+    </div>
+    <!--/ .container -->
+</div>
+<!--/ .main-container -->

@@ -1,0 +1,96 @@
+<div class="participant">
+
+  <div class="panel panel-prototype">
+  	<div class="panel-header">
+  		<h3>Prototype Questions</h3>
+    </div>
+    <!--/ .panel-header -->
+    <div class="step-bar" data-ng-class="step">
+    	<div class="progress" style="width: {{100.0 / (questions.length + 1)}}%"></div>
+    </div>
+    <!--/ .step-bar -->
+    <div class="panel-body" data-ng-show="step === -1" data-flow-init="{singleFile:true}" data-flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" data-flow-name="uploader.flow" data-flow-file-success="uploadSuccess($file, $message)">
+    	<div class="widget last">
+        <div class="form-control">
+          <label>Upload a photo of the top view of the Prototype you just tested.</label>
+          <div class="upload-widget">
+          	<a href="javascript:;" class="button-default expand" data-flow-btn data-flow-attrs="{accept:'image/*'}">SELECT PHOTO</a>
+            <div class="well">
+            	<div>
+              	<img data-flow-img="$flow.files[0]" data-ng-show="$flow.files.length" src="i/thumn-user.jpg" alt="Photo" />
+              </div>
+            </div>
+            <!--/ .well -->
+          </div>
+          <!--/ .upload-widget -->
+        </div>
+        <!--/ .form-control -->
+      </div>
+      <!--/ .widget -->
+      <div class="buttons-group">
+      	<a href="javascript:;" class="button icon icon-after icon-next right" data-ng-class="{'disabled': !$flow.files.length}" data-ng-click="upload($flow)">NEXT</a>
+      </div>
+      <!--/ .buttons-group -->
+    </div>
+    <!--/ .panel-body -->
+    <div class="panel-body" data-ng-class="{'last-step': $last}" data-ng-show="step === $index" data-ng-repeat="item in questions">
+    	<div class="widget last">
+        <div class="media">
+          <p>{{item.Text}}</p>
+          <ul data-ng-if="item.QuestionType == 0">
+            <li data-ng-repeat="ans in item.AnswerOptions">
+              <label data-ng-if="ans.Type == 0" class="radio">
+                <input type="radio" data-ng-model="item.Checked" data-ng-value="ans.Id"/>
+                <span></span>{{ans.Label}}
+              </label>
+              <label data-ng-if="ans.Type == 2">
+                <input type="text" data-ng-model="item.Input" placeholder="{{ans.Label}}"/>
+              </label>
+              <label data-ng-if="ans.Type == 3">
+                <input type="date" data-ng-model="item.Input" placeholder="{{ans.Label}}"/>
+              </label>
+              <label data-ng-if="ans.Type == 4">
+                <input type="time" data-ng-model="item.Input" placeholder="{{ans.Label}}"/>
+              </label>
+            </li>
+          </ul>
+          <ul data-ng-if="item.QuestionType == 2">
+            <li ng-repeat="ans in item.AnswerOptions">
+              <label class="checkbox">
+                <input type="checkbox" data-ng-model="ans.Checked" data-ng-value="ans.Id">
+                <span></span>{{ans.Label}}
+              </label>
+            </li>
+          </ul>
+          <div class="ui-slider-wrapper" data-ng-if="item.QuestionType == 1">
+            <div data-ui-slider data-min="{{item.AnswerOptions[0].FromValue < item.AnswerOptions[0].ToValue ? item.AnswerOptions[0].FromValue : item.AnswerOptions[0].ToValue}}" data-max="{{item.AnswerOptions[0].FromValue < item.AnswerOptions[0].ToValue ? item.AnswerOptions[0].ToValue : item.AnswerOptions[0].FromValue}}" data-step="{{item.AnswerOptions[0].Increment}}" data-ng-model="item.Value"></div>
+            <div class="scanner">
+              <div class="bar">
+                <i data-ng-repeat="value in item.AnswerOptions[0].Values" data-ng-class="{'first': $first, 'last': $last}" style="left: {{100.0 / (item.AnswerOptions[0].Values.length - 1) * $index}}%"></i>
+              </div>
+            </div>
+            <!--/ .scanner -->
+            <div class="arix">
+              <strong class="min">{{item.AnswerOptions[0].FromValueLabel}}</strong>
+              <strong class="max">{{item.AnswerOptions[0].ToValueLabel}}</strong>
+            </div>
+          </div>
+        </div>
+        <!--/ .media -->
+      </div>
+      <!--/ .widget -->
+      <div class="buttons-group" data-ng-if="!$last">
+        <a href="javascript:;" class="button-default icon left button-cancel icon-back" data-ng-click="back()" style="height: 35px;line-height: 34px;padding-left: 34px;">BACK</a>
+        <a href="javascript:;" class="button icon icon-after icon-next right" data-ng-class="{'disabled': isValid(item)}" data-ng-click="next($event)">NEXT</a>
+      </div>
+      <div class="buttons-group" data-ng-if="$last">
+        <a href="javascript:;" class="button-default icon left button-cancel icon-back" data-ng-click="back()" style="height: 35px;line-height: 34px;padding-left: 34px;">BACK</a>
+        <a href="javascript:;" class="button icon icon-save right" data-ng-class="{'disabled': isValid(item)}" data-ng-click="save($event)">SAVE</a>
+      </div>
+      <!--/ .buttons-group -->
+    </div>
+    <!--/ .panel-body -->
+  </div>
+  <!--/ .panel -->
+</div>
+<!--/ .Participant -->

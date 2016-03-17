@@ -1,0 +1,44 @@
+<div class="participant">
+
+  <div class="panel panel-testing">
+  	<div class="panel-header">
+  		<h3 class="icon icon-test-prototype">Test a Prototype</h3>
+    </div>
+    <!--/ .panel-header -->
+    <div class="panel-body">
+    	<div class="widget last">
+      	<div class="flyout-error" data-ng-show="submitted && !codeSelected.selected">
+        	<p class="icon icon-error">Please enter the Prototype Code.</p>
+        </div>
+        <div class="flyout-error" data-ng-show="submitted && codeNotFound">
+          <p class="icon icon-error">The Prototype Code cannot be found.</p>
+        </div>
+            {{code}}
+        <!--/ .error -->
+      	<form name="testPrototypeForm">
+          <div class="form-control">
+            <label>Enter the Prototype Code being tested</label>
+            <div class="input-control" data-ng-class="{'error': submitted && codeNotFound}">
+                <div data-ui-select data-ng-model="codeSelected.selected" data-theme="select2">
+                    <div data-ui-select-match data-placeholder="Prototype code">{{$select.selected}}</div>
+                    <div data-ui-select-choices data-repeat="person in codeOptions">
+                        <div data-ng-bind-html="person"></div>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+          <!--/ .form-control -->
+        </form>
+      </div>
+      <!--/ .widget -->
+      <div class="buttons-group">
+      	<a href="javascript:;" class="button button-save icon icon-save" data-ng-click="submitQuery();">SAVE</a>
+      </div>
+      <!--/ .buttons-group -->
+    </div>
+    <!--/ .panel-body -->
+  </div>
+  <!--/ .panel -->
+</div>
+<!--/ .Participant -->
