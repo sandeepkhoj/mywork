@@ -1321,16 +1321,19 @@ appControllers.controller('landingParticipantCtrl',function($scope,$rootScope,$l
 		for(var j = 0 ; j < $scope.codeOptions.length ; j++) {
 			var found = false;
 			for (var i = 0; i < $rootScope.participantSurvey.PrototypeTests.length; i++) {
+				console.log($scope.codeOptions[j]);
+				console.log($rootScope.participantSurvey.PrototypeTests[i].PrototypeCode);
 				if ($scope.codeOptions[j] == $rootScope.participantSurvey.PrototypeTests[i].PrototypeCode && $rootScope.participantSurvey.PrototypeTests[i].Completed) {
 					found = true;
 					break;
 				}
 			}
 			if(found == false) {
-				allow = found;
+				allow = false;
 				break;
 			}
 		}
+		console.log(allow);
 		return ($rootScope.participantSurvey == null || allow);
 	}
 
